@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <time.h>
 #define DICERANGE 6
-#define ROLLTIMES 100
+#define ROLLTIMES 1000
 
-/* prototype */
+/* prototypes */
 void rollDice(int *dice1, int *dice2);
 void addDice(int *sum, int *dice1, int *dice2);
 void printHistogram(int values[]);
@@ -19,9 +19,9 @@ int main()
 for( increment = 0 ; increment < ROLLTIMES ; increment++ ) 
  {
  rollDice(&dice1, &dice2);
- printf("%d %d\n+++++++++\n", dice1, dice2);
+ //printf("%d %d\n+++++++++\n", dice1, dice2);
  addDice(&sum, &dice1, &dice2);
- printf("%d\n", sum);
+ //printf("%d\n", sum);
 switch (sum) 
      {
          case 1: values[1]++; 
@@ -59,9 +59,9 @@ void rollDice(int *dicevalue1, int *dicevalue2)
   time_t t;
   *dicevalue1= (rand() % DICERANGE) + 1; 
   *dicevalue2= (rand() % DICERANGE) + 1; 
-  printf("%p\n", (void*)dicevalue1);
-  printf("%p\n", (void*)dicevalue2);
-  printf("**************\n");
+  //printf("%p\n", (void*)dicevalue1);
+  //printf("%p\n", (void*)dicevalue2);
+  //printf("**************\n");
   
 }
 
@@ -69,50 +69,52 @@ void rollDice(int *dicevalue1, int *dicevalue2)
 void addDice(int *sum, int *dice1, int *dice2)
 {
   *sum = *dice1 + *dice2;
-  printf("%p\n", (void*)sum);
+  //printf("%p\n", (void*)sum);
 }
 
 /* Definition of countSums  */
-/*for( randIncrement = 0 ; randIncrement < ROLLTIMES ; randIncrement++ ) 
-    {
-int dp1 = 0, dp2 = 0, dp3 = 0, dp4 = 0,
-    dp5 = 0, dp6 = 0, dp7 = 0, dp8 = 0, 
-    dp9 = 0, dp10 = 0, dp11 = 0, dp12 = 0;
-
-switch (rollDice) 
-     {
-         case 1: dp1++; break;
-         case 2: dp2++; break;
-         case 3: dp3++; break;
-         case 4: dp4++; break;
-         case 5: dp5++; break;
-         case 6: dp6++; break;
-         case 7: dp7++; break;
-         case 8: dp8++; break;
-         case 9: dp9++; break;
-         case 10: dp10++; break;
-         case 11: dp11++; break;
-         case 12: dp12++; break;
-      }
-    }
-}
-*/
 
 /* Definition of printHistogram */
 void printHistogram(int values[])
 {
-int i, x;
-printf("Sum of Dice Roll \n--------------------\n");
-for(i=2; i<=12;i++)
-{
-printf("%d:\t%d", i, values[i]);
-for(x=values[i];x>0;x--)
-{
-printf("*");
-}
-printf("\n");
-}
+	int printCntr, x;
+	/**/
+	int asterikDelim = 1;
+	for(printCntr=2;printCntr<=12;printCntr++)
 
+		if(values[printCntr] > 1000)
+		{
+			asterikDelim=150;
+		}
+		else if(values[printCntr] > 100)
+		{
+			asterikDelim=100;
+		}
+		else if(values[printCntr] > 10)
+		{
+			asterikDelim=10;
+			break;
+		}
+printf("Sum of Dice Roll (Increments of %d) \n-------------------\n", asterikDelim);
+	for(printCntr=2; printCntr<=12;printCntr++)
+	{
+		printf("%d:\t ", printCntr);
+		{
+			int spaceCntr=20;
+			for(x=values[printCntr]/asterikDelim;x>0;x--)
+			{
+				printf("*");
+				spaceCntr--;
+			}
+			printf("R%d", (values[printCntr]%asterikDelim));
+			for(;spaceCntr>0;spaceCntr--)
+			{
+				printf(" ");
+			}
+
+			printf("\n");
+		}
+	}
 }
 
 /* Definition of dicePercentage */
